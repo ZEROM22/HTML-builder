@@ -11,7 +11,7 @@ async function main() {
   const promises = dir.map(async (file) => {
     const pathToFile = path.join(__dirname, 'secret-folder', file.name);
     const fileInfo = {
-      name: file.name,
+      name: file.name.substring(0, file.name.lastIndexOf('.')),
       extension: file.isDirectory() ? 'folder' : path.extname(file.name).slice(1),
     };
 
@@ -22,9 +22,9 @@ async function main() {
 
   const results = await Promise.all(promises);
 
-  for (const file of results) {
+  Array.prototype.forEach.call(results, (file) => {
     console.log(`${file.name} - ${file.extension} - ${file.size}kb`);
-  }
+  });
 }
 
 main();
